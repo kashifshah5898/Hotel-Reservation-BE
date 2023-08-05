@@ -3,6 +3,7 @@ const User = require("../models/userModels");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { encryptedText, decryptedText } = require("../utils/Constant");
+const CreditCard = require("../models/creditCardModels");
 
 const getUsers = asyncHandler(async (req, res) => {
   const { id } = req.query;
@@ -76,6 +77,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 
   const updated = await User.findByIdAndDelete(req.params.id);
+
   res.status(200).json({ success: true, msg: "User deleted successfully" });
 });
 

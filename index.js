@@ -16,6 +16,13 @@ app.use(cors());
 app.use("/api/users", require("./routes/usersRoutes"));
 app.use("/api/rooms", require("./routes/roomRoutes"));
 app.use("/api/booking", require("./routes/bookingRoutes"));
+app.use("/api/creditCard", require("./routes/creditCardRoutes"));
+
+app.use((req, res) => {
+  res.status(404)
+  throw new Error("API Not Found")
+
+});
 
 app.use(errorHandler);
 app.listen(port, () => {
