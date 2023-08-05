@@ -9,8 +9,12 @@ const decryptedText = (encryptedText) => {
 };
 
 const encryptedText = (decryptText) => {
-    const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(decryptText), securityKey).toString();
-    return ciphertext
+    if (process.env.ENVIRONMENT == 'Development') {
+        return decryptText
+    } else {
+        const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(decryptText), securityKey).toString();
+        return ciphertext
+    }
 };
 
 

@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use("/api/users", require("./routes/usersRoutes"));
+app.use("/api/rooms", require("./routes/roomRoutes"));
+app.use("/api/booking", require("./routes/bookingRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => {

@@ -50,7 +50,7 @@ const createUser = asyncHandler(async (req, res) => {
     email: body.email,
     password: hashedPassword,
     gender: body.gender,
-    role: 'user'
+    role: body.role
   });
   return res.status(201).json({ success: true, msg: "User created successfully" });
 });
