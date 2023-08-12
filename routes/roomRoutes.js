@@ -5,7 +5,7 @@ const {
 } = require("../controllers/roomsController");
 const { protect } = require("../middleWare/authMiddleware");
 
-routes.get("/getRooms", protect, getRooms);
+routes.get("/getRooms", getRooms);
 routes.post("/createRoom", protect, createRoom);
 routes.put("/updateRoom", protect, updateRoom);
 routes.delete("/deleteRoom", protect, deleteRoom);

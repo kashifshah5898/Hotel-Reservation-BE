@@ -35,12 +35,14 @@ const createBooking = asyncHandler(async (req, res) => {
   if (isBooked.length > 0) {
     isBooked.map((item) => {
       // Check if the requested start or end time falls within the booked slot
-      if (
-        (new Date(bookingStart) >= new Date(item.bookingStart) && new Date(bookingStart) < new Date(item.bookingEnd)) ||
-        (new Date(bookingEnd) > new Date(item.bookingStart) && new Date(bookingEnd) <= new Date(item.bookingEnd))
-      ) {
-        res.status(400);
-        throw new Error(`This Room is already booked for ${item.bookedFor}`); // The slot overlaps with a booked slot, return false
+      if (item.roomNo == roomNo) {
+        if (
+          (new Date(bookingStart) >= new Date(item.bookingStart) && new Date(bookingStart) < new Date(item.bookingEnd)) ||
+          (new Date(bookingEnd) > new Date(item.bookingStart) && new Date(bookingEnd) <= new Date(item.bookingEnd))
+        ) {
+          res.status(400);
+          throw new Error(`This Room is already booked for ${item.bookedFor}`); // The slot overlaps with a booked slot, return false
+        }
       }
     });
   }
@@ -72,7 +74,7 @@ const updateBooking = asyncHandler(async (req, res) => {
 
   if (isBooked.length > 0) {
     isBooked.map((item) => {
-      if (item._id != id) {
+      if (item._id != id && item.roomNo != roomNo) {
         // Check if the requested start or end time falls within the booked slot
         if (
           (new Date(bookingStart) >= new Date(item.bookingStart) && new Date(bookingStart) < new Date(item.bookingEnd)) ||

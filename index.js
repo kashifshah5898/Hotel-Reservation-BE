@@ -21,7 +21,6 @@ app.use("/api/creditCard", require("./routes/creditCardRoutes"));
 app.use((req, res) => {
   res.status(404)
   throw new Error("API Not Found")
-
 });
 
 app.use(errorHandler);
