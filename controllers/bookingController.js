@@ -12,6 +12,18 @@ const getBookings = asyncHandler(async (req, res) => {
 
 });
 
+const myBookings = asyncHandler(async (req, res) => {
+
+  const { id } = req.query
+
+  const bookings = await Booking.find({ bookedBy: id }).populate('roomNo');
+
+  return res
+    .status(200)
+    .json({ success: true, data: encryptedText(bookings) });
+
+});
+
 const createBooking = asyncHandler(async (req, res) => {
   const { roomNo, bookedBy, bookingStart, bookingEnd, bookedFor, additionalInfo = '' } = req.body;
 
@@ -20,7 +32,7 @@ const createBooking = asyncHandler(async (req, res) => {
     throw new Error("Please Fill all required fields");
   }
 
-  if (new Date(bookingStart).getTime() + 24 * 60 * 60 * 1000 < new Date()) {
+  if (new Date(bookingStart).getTime() + 24 * 60 * 60 * 1000 < new Date().getTime()) {
     res.status(400);
     throw new Error("You can not book room in previous dates");
   }
@@ -35,7 +47,7 @@ const createBooking = asyncHandler(async (req, res) => {
   if (isBooked.length > 0) {
     isBooked.map((item) => {
       // Check if the requested start or end time falls within the booked slot
-      if (item.roomNo == roomNo) {
+      if (item._id == roomNo) {
         if (
           (new Date(bookingStart) >= new Date(item.bookingStart) && new Date(bookingStart) < new Date(item.bookingEnd)) ||
           (new Date(bookingEnd) > new Date(item.bookingStart) && new Date(bookingEnd) <= new Date(item.bookingEnd))
@@ -115,4 +127,4 @@ const deleteBooking = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { getBookings, createBooking, updateBooking, deleteBooking };
+module.exports = { getBookings, myBookings, createBooking, updateBooking, deleteBooking };

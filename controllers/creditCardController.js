@@ -9,8 +9,9 @@ const getCreditCardDetails = asyncHandler(async (req, res) => {
   const cardDetail = await CreditCard.find({ userId: userId });
 
   if (cardDetail.length == 0) {
-    res.status(400);
-    throw new Error('Card Details not found')
+    return res
+      .status(400)
+      .json({ success: false, msg: "Card Details not found" });
   }
 
   return res
@@ -27,6 +28,12 @@ const createCreditCardDetails = asyncHandler(async (req, res) => {
     throw new Error("Please Fill all required fields");
   }
 
+  const isCard = await CreditCard.findOne({ userId: userId })
+
+  if (isCard) {
+    res.status(400);
+    throw new Error("Card Details already exist");
+  }
 
   await CreditCard.create({
     userId: userId,

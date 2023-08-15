@@ -18,7 +18,7 @@ const getRooms = asyncHandler(async (req, res) => {
 });
 
 const createRoom = asyncHandler(async (req, res) => {
-  const { number, additionalInfo = '' } = req.body;
+  const { number, additionalInfo } = req.body;
 
   if (!number) {
     res.status(400);
